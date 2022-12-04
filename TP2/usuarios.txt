@@ -1,0 +1,13 @@
+
+Arthur Andrade
+Rua 1, Bairro tal, numero 10
+09824584609
+1
+Ana Clara
+Rua 2, Bairro tal2, numero 29
+35987642185
+1
+Julio
+Rua 3, bairro top, numero 100
+03542168547
+0
