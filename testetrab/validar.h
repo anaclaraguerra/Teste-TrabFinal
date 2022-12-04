@@ -4,7 +4,7 @@
 
 class ValidarAtributos {
     public:
-        void validarNome(std::string nome);
+        std::string validarNome(std::string nome);
         std::string validarData(int dia, int mes, int ano);
         std::string validarCPF(std::string cpf);
         int validarAvaliacao(int avaliacao);

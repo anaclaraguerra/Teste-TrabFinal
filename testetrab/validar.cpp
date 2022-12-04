@@ -2,29 +2,34 @@
 #include <string>
 #include <iostream>
 #include <stdexcept>
+#include <locale.h>
 
-void ValidarAtributos::validarNome(std::string nome){
+std::string ValidarAtributos::validarNome(std::string nome){
+    setlocale(LC_ALL, "pt_BR.UTF-8");
        for(int i=0; i< nome.size(); i++){
             if(isdigit(nome[i])){
                 throw std::invalid_argument("Nome inválido!");
             }
-       } 
+       }
+
+       return nome;
 }
 
 
 std::string ValidarAtributos::validarData(int dia, int mes, int ano) {
-    if((dia >= 1 && dia <= 31) && (mes >= 1 && mes <= 12) && (ano >= 1900 && ano <= 2060)) {    // verifica data ate 2060
+    setlocale(LC_ALL, "pt_BR.UTF-8");
+      if((dia >= 1 && dia <= 31) && (mes >= 1 && mes <= 12) && (ano >= 1900 && ano <= 2060)) {    // verifica data ate 2060
             if ((dia == 29 && mes == 2) && ((ano % 4) == 0)) {
-                return ano << "/" << mes << "/" << dia << "\n";
+                // return ano mes dia << "\n";
             }
             if (dia <= 28 && mes == 2) {
-                return ano << "/" << mes << "/" << dia << "\n";
+                // return ano << "/" << mes << "/" << dia << "\n";
             }
             if ((dia <= 30) && (mes == 4 || mes == 6 || mes == 9 || mes == 11)) {
-                return ano << "/" << mes << "/" << dia << "\n";
+                // return ano << "/" << mes << "/" << dia << "\n";
             }
             if ((dia <=31) && (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes ==8 || mes == 10 || mes == 12)) {
-                return ano << "/" << mes << "/" << dia << "\n";
+                // return ano << "/" << mes << "/" << dia << "\n";
             } else {
                 throw std::invalid_argument("Data inválida!");
             }
@@ -34,15 +39,21 @@ std::string ValidarAtributos::validarData(int dia, int mes, int ano) {
 }
 
 std::string ValidarAtributos::validarCPF(std::string cpf){
+    setlocale(LC_ALL, "pt_BR.UTF-8");
     for(int i=0; i< cpf.size(); i++){
-        if(!isdigit(cpf[i]) || cpf.size() > 11){
-            throw std::invalid_argument("CPF inválido!");
-        } else
-            return cpf;
+        if(!isdigit(cpf[i]))
+            throw std::invalid_argument("CPF inválido!\nDigite somente números!\n");
+        if(cpf.size() > 11)
+            throw std::overflow_error("CPF inválido!\n Quantidade digitada está acima de 11 números!\n");
+        if(cpf.size() < 11)
+            throw std::underflow_error("CPF inválido!\nQuantidade digitada está abaixo de 11 números!\n");
     }
+        return cpf;
+    
 }
 
 int ValidarAtributos::validarAvaliacao(int avaliacao){
+    setlocale(LC_ALL, "pt_BR.UTF-8");
     if(avaliacao > 10 ){
         throw std::overflow_error("Valor acima de 10!");
     } else if(avaliacao < 0){
@@ -52,38 +63,35 @@ int ValidarAtributos::validarAvaliacao(int avaliacao){
     }
 }
 
-std::string ValidarAtributos::validarCargo(std::string cargo){
-    if(cargo == 'G1' || cargo == 'G2'){
-        return cargo;
-    } else
-        throw std::invalid_argument("Cargo invalido.\nDigite G1 para gerente\nDigite G2 para garçom!");
-
-}
-
 std::string ValidarAtributos::validarTelefone(std::string telefone){
+    setlocale(LC_ALL, "pt_BR.UTF-8");
     for(int i=0; i< telefone.size(); i++){
-        if(!isdigit(telefone[i]) || telefone.size() > 9){
-            throw std::invalid_argument("Telefone inválido!");
-        } else
-            return telefone;
+        if(!isdigit(telefone[i]))
+            throw std::invalid_argument("Telefone inválido! Digite somente números!\n");
+        if(telefone.size() != 9)
+            throw std::overflow_error("Telefone inválido! Digite somente 9 números!\n");
+        
+        return telefone;
     }
 }
 
 std::string ValidarAtributos::validarHorario(std::string hora, std::string minuto){
+    setlocale(LC_ALL, "pt_BR.UTF-8");
     for(int i=0; i<hora.size(); i++){
         for(int j=0; j<minuto.size(); j++){
             if(!isdigit(hora[i]) || !isdigit(minuto[j])){
-                throw std::invalid_argument("Horario Inválido! Deverá conter apenas numeros");
+                throw std::invalid_argument("Horario Inválido! Deverá conter apenas numeros\n");
             }
         }
     }
-    int _hora, _minuto;
+    unsigned int _hora, _minuto;
     _hora = stoi(hora);
     _minuto = stoi(minuto);
 
-    if(_hora >= 24 || _minuto >= 60){
-                throw std::overflow_error("Horário maior do que o permitido!");
-            }
+    if(_hora >= 24 || _minuto >= 60)
+        throw std::overflow_error("Horário maior do que o permitido!\n");
+        
+    // return std::cout << hora << minuto;
 
 }
 
